@@ -1,38 +1,39 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using xPartyInvites.Models;
 
+
 namespace xPartyInvites.Controllers;
+
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
-
     public IActionResult Index()
     {
         return View();
     }
 
+    [HttpGet]
     public ViewResult RsvpForm()
     {
         return View();
     }
 
-    //..........................................................................
-
-    public IActionResult Privacy()
+    [HttpPost]
+    public ViewResult RsvpForm(GuestResponse guestResponse)
     {
-        return View();
+        if (ModelState.IsValid)
+        {
+            Repository.AddResponse(guestResponse);
+            return View("Thanks", guestResponse);
+        }
+        else
+        {
+            return View();
+        }
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public ViewResult ListResponses()
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return View(Repository.Responses.Where(r => r.WillAttend == true));
     }
 }
