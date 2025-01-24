@@ -1,0 +1,4 @@
+dotnet new globaljson --output xMySolution/MyProject 
+dotnet new web --no-https --output xMySolution/MyProject
+dotnet new sln -o xMySolution
+dotnet sln xMySolution add xMySolution/MyProject
