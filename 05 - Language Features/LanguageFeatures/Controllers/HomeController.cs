@@ -4,12 +4,6 @@ public class HomeController : Controller
 {
     public ViewResult Index()
     {
-        Product?[] products = Product.GetProducts();
-        string? val = products[0]?.Name;
-        if (val != null)
-        {
-            return View(new string[] { val });
-        }
-        return View(new string[] { "No Value" });
+        return View(Product.GetProducts().Where(p => p != null).Select(p => p?.Name));
     }
 }
