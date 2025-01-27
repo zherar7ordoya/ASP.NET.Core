@@ -1,0 +1,4 @@
+dotnet new globaljson --output LanguageFeatures 
+dotnet new web --no-https --output LanguageFeatures
+dotnet new sln -o LanguageFeatures
+dotnet sln LanguageFeatures add LanguageFeatures
