@@ -2,8 +2,9 @@
 
 public class HomeController : Controller
 {
-    public ViewResult Index()
+    public async Task<ViewResult> Index()
     {
-        return View(Product.GetProducts().Where(p => p != null).Select(p => p?.Name));
+        long? length = await MyAsyncMethods.GetPageLength();
+        return View(new string[] { $"Length: {length}" });
     }
 }
