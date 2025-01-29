@@ -1,0 +1,8 @@
+dotnet new globaljson --output Testing/SimpleApp
+dotnet new web --no-https --output Testing/SimpleApp
+dotnet new sln -o Testing
+dotnet sln Testing add Testing/SimpleApp
+
+dotnet new xunit -o SimpleApp.Tests
+dotnet sln add SimpleApp.Tests
+dotnet add SimpleApp.Tests reference SimpleApp
