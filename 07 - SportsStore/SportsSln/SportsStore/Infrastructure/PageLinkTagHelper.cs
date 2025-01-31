@@ -22,6 +22,14 @@ public class PageLinkTagHelper(IUrlHelperFactory helperFactory) : TagHelper
 
     public string? PageAction { get; set; }
 
+    public bool PageClassesEnabled { get; set; } = false;
+
+    public string PageClass { get; set; } = string.Empty;
+
+    public string PageClassNormal { get; set; } = string.Empty;
+
+    public string PageClassSelected { get; set; } = string.Empty;
+
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
         if (ViewContext != null && PageModel != null)
@@ -33,6 +41,13 @@ public class PageLinkTagHelper(IUrlHelperFactory helperFactory) : TagHelper
             {
                 TagBuilder tag = new("a");
                 tag.Attributes["href"] = urlHelper.Action(PageAction, new { productPage = i });
+
+                if (PageClassesEnabled)
+                {
+                    tag.AddCssClass(PageClass);
+                    tag.AddCssClass(i == PageModel.CurrentPage ? PageClassSelected : PageClassNormal);
+                }
+
                 tag.InnerHtml.Append(i.ToString());
                 result.InnerHtml.AppendHtml(tag);
             }
