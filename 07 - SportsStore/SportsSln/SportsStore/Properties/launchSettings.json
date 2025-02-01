@@ -10,5 +10,6 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
-  }
+  },
+  "_comments": "IIS Express ya no se usa en .NET 9. El servidor por defecto ahora es Kestrel, que es el que se ejecuta directamente en la aplicación."
 }
