@@ -1,6 +1,7 @@
-﻿using System;
-using System.Text.Json;
+﻿using System.Text.Json;
+
 using ContactManager.Models;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContactManager.Controllers;

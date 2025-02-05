@@ -1,7 +1,8 @@
 ﻿using ContactManager.Models;
+
 using Microsoft.AspNetCore.Mvc;
+
 using System.Diagnostics;
-using System.Text.Json;
 
 namespace ContactManager.Controllers
 {
