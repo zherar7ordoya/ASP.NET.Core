@@ -3,7 +3,8 @@
 <p>SelectedCategory: @ViewBag.SelectedCategory</p>
 
 <div class="d-grid gap-2">
-    <a class="btn btn-outline-secondary"
+    <!-- <a class="btn btn-outline-secondary" -->
+    <a class="btn @(string.IsNullOrEmpty(ViewBag.SelectedCategory) ? "btn-primary" : "btn-outline-secondary")"
        asp-action="Index"
        asp-controller="Home"
        asp-route-category="">
