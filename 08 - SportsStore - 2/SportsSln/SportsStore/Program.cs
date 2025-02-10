@@ -15,6 +15,9 @@ builder.Services.AddDbContext<StoreDbContext>(opts =>
 // Configura la inyección de dependencias para que EFStoreRepository sea la implementación de IStoreRepository.
 builder.Services.AddScoped<IStoreRepository, EFStoreRepository>();
 
+// Agrega el servicio de soporte para las Razor Pages.
+builder.Services.AddRazorPages();
+
 // Build se utiliza para crear la aplicación.
 var app = builder.Build();
 
@@ -41,6 +44,9 @@ app.MapControllerRoute("pagination", "Products/Page{productPage}", new
 
 // Rutas por defecto para MVC.
 app.MapDefaultControllerRoute();
+
+// Rutas por defecto para Razor Pages.
+app.MapRazorPages();
 
 // Sembrado de datos en la base si no existen.
 SeedData.EnsurePopulated(app);
