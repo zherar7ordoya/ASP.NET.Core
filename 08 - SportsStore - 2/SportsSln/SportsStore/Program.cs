@@ -18,11 +18,18 @@ builder.Services.AddScoped<IStoreRepository, EFStoreRepository>();
 // Agrega el servicio de soporte para las Razor Pages.
 builder.Services.AddRazorPages();
 
+// Agrega el servicio de soporte para la sesión.
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
+
 // Build se utiliza para crear la aplicación.
 var app = builder.Build();
 
 // Configura el uso de archivos estáticos.
 app.UseStaticFiles();
+
+// Configura el uso de sesiones.
+app.UseSession();
 
 app.MapControllerRoute("catpage",
     "{category}/Page{productPage:int}",
