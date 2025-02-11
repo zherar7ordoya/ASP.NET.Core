@@ -21,6 +21,8 @@ builder.Services.AddRazorPages();
 // Agrega el servicio de soporte para la sesión.
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
+builder.Services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 // Build se utiliza para crear la aplicación.
 var app = builder.Build();
