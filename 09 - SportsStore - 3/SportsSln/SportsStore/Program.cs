@@ -14,6 +14,7 @@ builder.Services.AddDbContext<StoreDbContext>(opts =>
 
 // Configura la inyección de dependencias para que EFStoreRepository sea la implementación de IStoreRepository.
 builder.Services.AddScoped<IStoreRepository, EFStoreRepository>();
+builder.Services.AddScoped<IOrderRepository, EFOrderRepository>();
 
 // Agrega el servicio de soporte para las Razor Pages.
 builder.Services.AddRazorPages();
