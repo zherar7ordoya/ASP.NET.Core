@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace SportsStore.Models;
@@ -33,4 +32,7 @@ public class Order
     public string? Country { get; set; }
 
     public bool GiftWrap { get; set; }
+
+    [BindNever]
+    public bool Shipped { get; set; }
 }
