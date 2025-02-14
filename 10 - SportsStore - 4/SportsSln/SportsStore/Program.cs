@@ -59,7 +59,8 @@ app.MapDefaultControllerRoute();
 // Rutas por defecto para Razor Pages.
 app.MapRazorPages();
 app.MapBlazorHub();
-app.MapFallbackToPage("/admin/{*catchall}", "/Admin/Index");
+
+app.MapFallbackToPage("/admin/{*catchall}", "/Admin/Index"); // Revisar coloreado.
 
 // Sembrado de datos en la base si no existen.
 SeedData.EnsurePopulated(app);
