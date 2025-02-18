@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using SportsStore.Models;
 using Microsoft.AspNetCore.Identity;
 
+//..............................................................................
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Se registran los servicios para trabajar con controladores y vistas en MVC.
@@ -35,6 +37,13 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkSto
 // Build se utiliza para crear la aplicación.
 var app = builder.Build();
 
+if (app.Environment.IsProduction())
+{
+    app.UseExceptionHandler("/error");
+}
+
+app.UseRequestLocalization(opts => {opts.AddSupportedCultures("en-US").AddSupportedUICultures("en-US").SetDefaultCulture("en-US");});
+
 // Configura el uso de archivos estáticos.
 app.UseStaticFiles();
 
@@ -44,16 +53,10 @@ app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute("catpage",
-    "{category}/Page{productPage:int}",
-    new { Controller = "Home", action = "Index" });
-app.MapControllerRoute("page", "Page{productPage:int}",
-    new { Controller = "Home", action = "Index", productPage = 1 });
-app.MapControllerRoute("category", "{category}",
-    new { Controller = "Home", action = "Index", productPage = 1 });
-app.MapControllerRoute("pagination",
-    "Products/Page{productPage}",
-    new { Controller = "Home", action = "Index", productPage = 1 });
+app.MapControllerRoute("catpage", "{category}/Page{productPage:int}", new { Controller = "Home", action = "Index" });
+app.MapControllerRoute("page", "Page{productPage:int}", new { Controller = "Home", action = "Index", productPage = 1 });
+app.MapControllerRoute("category", "{category}", new { Controller = "Home", action = "Index", productPage = 1 });
+app.MapControllerRoute("pagination", "Products/Page{productPage}", new { Controller = "Home", action = "Index", productPage = 1 });
 
 // Rutas personalizadas para la paginación.
 app.MapControllerRoute("pagination", "Products/Page{productPage}", new
@@ -72,5 +75,6 @@ app.MapFallbackToPage("/admin/{*catchall}", "/Admin/Index");
 
 // Sembrado de datos en la base si no existen.
 SeedData.EnsurePopulated(app);
+IdentitySeedData.EnsurePopulated(app);
 
 app.Run();
