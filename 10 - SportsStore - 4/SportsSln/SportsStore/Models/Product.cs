@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SportsStore.Models;
 
+/// <summary>
+/// Represents a product in the database.
+/// </summary>
 public class Product
 {
     public long? ProductID { get; set; }
