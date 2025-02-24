@@ -1,6 +1,7 @@
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
+// http://localhost:5000/?custom=true
 app.Use(async (context, next) => {
 
     if (context.Request.Method == HttpMethods.Get && context.Request.Query["custom"] == "true")
