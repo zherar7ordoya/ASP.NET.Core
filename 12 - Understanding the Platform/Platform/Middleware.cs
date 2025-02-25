@@ -1,19 +1,33 @@
-﻿namespace Platform;
-
-public class QueryStringMiddleWare(RequestDelegate nextDelegate)
+﻿namespace Platform
 {
-    private readonly RequestDelegate next = nextDelegate;
-
-    public async Task Invoke(HttpContext context)
+    public class QueryStringMiddleWare
     {
-        if (context.Request.Method == HttpMethods.Get && context.Request.Query["custom"] == "true")
+        private RequestDelegate? next;
+
+        public QueryStringMiddleWare()
         {
-            if (!context.Response.HasStarted)
-            {
-                context.Response.ContentType = "text/plain";
-            }
-            await context.Response.WriteAsync("Class-based Middleware \n");
+            // do nothing
         }
-        await next(context);
+
+        public QueryStringMiddleWare(RequestDelegate nextDelegate)
+        {
+            next = nextDelegate;
+        }
+
+        public async Task Invoke(HttpContext context)
+        {
+            if (context.Request.Method == HttpMethods.Get && context.Request.Query["custom"] == "true")
+            {
+                if (!context.Response.HasStarted)
+                {
+                    context.Response.ContentType = "text/plain";
+                }
+                await context.Response.WriteAsync("Class-based Middleware \n");
+            }
+            if (next != null)
+            {
+                await next(context);
+            }
+        }
     }
 }
