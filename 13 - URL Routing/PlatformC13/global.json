@@ -1,0 +1,7 @@
+{
+    "comment": "This is a global.json file that defines the SDK version to use for this folder.",
+    "sdk":
+    {
+        "version": "9.0.200"
+    }
+}
