@@ -5,12 +5,9 @@ namespace Platform
 
     public class QueryStringMiddleWare
     {
-        private RequestDelegate? next;
+        private readonly RequestDelegate? next;
 
-        public QueryStringMiddleWare()
-        {
-            // do nothing
-        }
+        public QueryStringMiddleWare() { }
 
         public QueryStringMiddleWare(RequestDelegate nextDelegate)
         {
@@ -19,13 +16,13 @@ namespace Platform
 
         public async Task Invoke(HttpContext context)
         {
-            if (context.Request.Method == HttpMethods.Get
-                        && context.Request.Query["custom"] == "true")
+            if (context.Request.Method == HttpMethods.Get && context.Request.Query["custom"] == "true")
             {
                 if (!context.Response.HasStarted)
                 {
                     context.Response.ContentType = "text/plain";
                 }
+
                 await context.Response.WriteAsync("Class-based Middleware \n");
             }
             if (next != null)
@@ -35,24 +32,16 @@ namespace Platform
         }
     }
 
-    public class LocationMiddleware
+    public class LocationMiddleware(RequestDelegate nextDelegate, IOptions<MessageOptions> opts)
     {
-        private RequestDelegate next;
-        private MessageOptions options;
-
-        public LocationMiddleware(RequestDelegate nextDelegate,
-                IOptions<MessageOptions> opts)
-        {
-            next = nextDelegate;
-            options = opts.Value;
-        }
+        private readonly RequestDelegate next = nextDelegate;
+        private readonly MessageOptions options = opts.Value;
 
         public async Task Invoke(HttpContext context)
         {
             if (context.Request.Path == "/location")
             {
-                await context.Response
-                    .WriteAsync($"{options.CityName}, {options.CountryName}");
+                await context.Response.WriteAsync($"{options.CityName}, {options.CountryName}");
             }
             else
             {
@@ -60,5 +49,4 @@ namespace Platform
             }
         }
     }
-
 }
