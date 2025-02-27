@@ -1,48 +1,19 @@
-//using Microsoft.Extensions.Options;
-//using Platform;
-
-//var builder = WebApplication.CreateBuilder(args);
-
-//builder.Services.Configure<MessageOptions>(options =>
-//{
-//    options.CityName = "Albany";
-//});
-
-//var app = builder.Build();
-
-//app.UseMiddleware<LocationMiddleware>();
-
-//app.MapGet("/", () => "Hello World!");
-//app.Run();
-
-//******************************************************************************
-
 using Platform;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.UseMiddleware<Population>();
-app.UseMiddleware<Capital>();
-
-app.UseRouting();
-
-app.UseEndpoints(endpoints =>
+app.MapGet("{first}/{second}/{third}", async context => 
 {
-    endpoints.MapGet("routing", async context =>
-    {
-        await context.Response.WriteAsync("Request Was Routed");
-    });
+    await context.Response.WriteAsync("Request Was Routed\n");
 
-    endpoints.MapGet("dev", async context =>
+    foreach (var kvp in context.Request.RouteValues)
     {
-        await context.Response.WriteAsync("Gerardo Tordoya");
-    });
+        await context.Response.WriteAsync($"{kvp.Key}: {kvp.Value}\n");
+    }
 });
 
-app.Run(async (context) =>
-{
-    await context.Response.WriteAsync("Terminal Middleware Reached");
-});
+app.MapGet("capital/{country}", Capital.Endpoint);
+app.MapGet("population/{city}", Population.Endpoint).WithMetadata(new RouteNameMetadata("population"));
 
 app.Run();

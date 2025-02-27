@@ -1,28 +1,13 @@
-﻿namespace Platform;
-
-public class Capital
+﻿namespace Platform
 {
-    public Capital() { }
-
-    public Capital(RequestDelegate nextDelegate)
+    public class Capital
     {
-        next = nextDelegate;
-    }
-
-    private RequestDelegate? next;
-
-    //......................................................................
-
-    public async Task Invoke(HttpContext context)
-    {
-        string[] parts = context.Request.Path.ToString().Split("/", StringSplitOptions.RemoveEmptyEntries);
-
-        if (parts.Length == 2 && parts[0] == "capital")
+        public static async Task Endpoint(HttpContext context)
         {
             string? capital = null;
-            string country = parts[1];
+            string? country = context.Request.RouteValues["country"] as string;
 
-            switch (country.ToLower())
+            switch ((country ?? "").ToLower())
             {
                 case "uk":
                     capital = "London";
@@ -31,20 +16,26 @@ public class Capital
                     capital = "Paris";
                     break;
                 case "monaco":
-                    context.Response.Redirect($"/population/{country}");
+                    LinkGenerator? generator = context.RequestServices.GetService<LinkGenerator>();
+                    string? url = generator?.GetPathByRouteValues(context, "population", new { city = country });
+
+                    if (url != null)
+                    {
+                        context.Response.Redirect(url);
+                    }
+
                     return;
             }
 
             if (capital != null)
             {
-                await context.Response.WriteAsync($"{capital} is the capital of {country}");
-                return;
+                await context.Response
+                    .WriteAsync($"{capital} is the capital of {country}");
             }
-        }
-
-        if (next != null)
-        {
-            await next(context);
+            else
+            {
+                context.Response.StatusCode = StatusCodes.Status404NotFound;
+            }
         }
     }
 }

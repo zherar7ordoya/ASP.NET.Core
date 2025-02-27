@@ -1,28 +1,20 @@
-﻿namespace Platform;
-
-public class Population
+﻿namespace Platform
 {
-    public Population() { }
-
-    public Population(RequestDelegate nextDelegate)
+    public class Population
     {
-        next = nextDelegate;
-    }
-
-    private readonly RequestDelegate? next;
-    
-    //..........................................................................
-
-    public async Task Invoke(HttpContext context)
-    {
-        string[] parts = context.Request.Path.ToString().Split("/", StringSplitOptions.RemoveEmptyEntries);
-
-        if (parts.Length == 2 && parts[0] == "population")
+        /// <summary>
+        /// Endpoint for the population of a city.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns>
+        /// Task
+        /// </returns>
+        public static async Task Endpoint(HttpContext context)
         {
-            string city = parts[1];
+            string? city = context.Request.RouteValues["city"] as string;
             int? pop = null;
 
-            switch (city.ToLower())
+            switch ((city ?? "").ToLower())
             {
                 case "london":
                     pop = 8_136_000;
@@ -38,13 +30,11 @@ public class Population
             if (pop.HasValue)
             {
                 await context.Response.WriteAsync($"City: {city}, Population: {pop}");
-                return;
             }
-        }
-
-        if (next != null)
-        {
-            await next(context);
+            else
+            {
+                context.Response.StatusCode = StatusCodes.Status404NotFound;
+            }
         }
     }
 }
