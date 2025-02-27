@@ -25,6 +25,21 @@ var app = builder.Build();
 app.UseMiddleware<Population>();
 app.UseMiddleware<Capital>();
 
+app.UseRouting();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapGet("routing", async context =>
+    {
+        await context.Response.WriteAsync("Request Was Routed");
+    });
+
+    endpoints.MapGet("dev", async context =>
+    {
+        await context.Response.WriteAsync("Gerardo Tordoya");
+    });
+});
+
 app.Run(async (context) =>
 {
     await context.Response.WriteAsync("Terminal Middleware Reached");
