@@ -3,7 +3,7 @@ using Platform;
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.MapGet("{first}/{second}/{third}", async context => 
+app.MapGet("{first:int}/{second:bool}", async context =>
 {
     await context.Response.WriteAsync("Request Was Routed\n");
 
@@ -13,7 +13,8 @@ app.MapGet("{first}/{second}/{third}", async context =>
     }
 });
 
-app.MapGet("capital/{country}", Capital.Endpoint);
-app.MapGet("population/{city}", Population.Endpoint).WithMetadata(new RouteNameMetadata("population"));
+app.MapGet("capital/{country=France}", Capital.Endpoint);
+
+app.MapGet("size/{city?}", Population.Endpoint).WithMetadata(new RouteNameMetadata("population"));
 
 app.Run();
