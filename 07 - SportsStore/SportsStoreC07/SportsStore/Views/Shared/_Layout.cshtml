@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SportsStore</title>
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- 
+        Esta sección crea una barra de navegación simple con un fondo oscuro,
+        texto blanco y un título estilizado.
+
+        bg-dark : Esta clase define un fondo oscuro para la barra superior.
+        text-white : Hace que el texto dentro de esta sección sea blanco.
+        p-2 : Agrega un relleno (padding) interno de tamaño 2 (unidades definidas por Bootstrap).
+        navbar-brand : Es una clase específica de Bootstrap que estiliza un elemento como parte de una barra de navegación.
+        ml-2 : Agrega un margen izquierdo (margin-left) de tamaño 2. Esto desplaza el texto ligeramente hacia la derecha.
+    -->
+    <div class="bg-dark text-white p-2">
+        <span class="navbar-brand ml-2">SPORTS STORE</span>
+    </div>
+
+    <!--
+        Esta sección crea una fila (row) y dos columnas (col-3 y col-9) dentro de ella.
+        Este es un ejemplo clásico del sistema de cuadrícula de Bootstrap, que divide el ancho en 12 partes iguales.
+
+        col-3 : Esta clase define una columna que ocupa 3/12 (25%) del ancho total de la fila.
+        col-9 : Esta clase define una columna que ocupa 9/12 (75%) del ancho total de la fila.
+        m-1 : Agrega un margen externo (margin) de tamaño 1.
+        p-1 : Agrega un relleno interno (padding) de tamaño 1.
+    -->
+    <div class="row m-1 p-1">
+        <div id="categories" class="col-3">
+            Gerardo Tordoya
+        </div>
+        <div class="col-9">
+            @RenderBody()
+        </div>
+    </div>
+</body>
+
+</html>
