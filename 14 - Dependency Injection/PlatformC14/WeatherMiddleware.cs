@@ -1,14 +1,19 @@
-﻿namespace Platform;
+﻿using Platform.Services;
 
-public class WeatherMiddleware(RequestDelegate nextDelegate)
+namespace Platform;
+
+public class WeatherMiddleware(
+    RequestDelegate nextDelegate,
+    IResponseFormatter respFormatter)
 {
     private readonly RequestDelegate next = nextDelegate;
+    private readonly IResponseFormatter formatter = respFormatter;
 
     public async Task Invoke(HttpContext context)
     {
         if (context.Request.Path == "/middleware/class")
         {
-            await context.Response.WriteAsync("Middleware Class: It is raining in London");
+            await formatter.Format(context, "Middleware Class: It is raining in London");
         }
         else
         {
