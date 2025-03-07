@@ -1,13 +1,16 @@
 ﻿using Platform.Services;
-
-namespace Platform;
-
-public class WeatherEndpoint(IResponseFormatter responseFormatter)
+namespace Platform
 {
-    private readonly IResponseFormatter formatter = responseFormatter;
-
-    public async Task Endpoint(HttpContext context)
+    public class WeatherEndpoint
     {
-        await formatter.Format(context, "Endpoint Class: It is cloudy in Milan");
+        private IResponseFormatter formatter;
+        public WeatherEndpoint(IResponseFormatter responseFormatter)
+        {
+            formatter = responseFormatter;
+        }
+        public async Task Endpoint(HttpContext context)
+        {
+            await formatter.Format(context, "Endpoint Class: It is cloudy in Milan");
+        }
     }
 }
