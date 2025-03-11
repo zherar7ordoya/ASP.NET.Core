@@ -23,7 +23,23 @@ internal class Program
             await formatter.Format(context, "Endpoint Function: It is sunny in LA");
         });
 
-        app.MapGet("/", () => $"Worker Process Name: {Process.GetCurrentProcess().ProcessName}");
+        //----------------------------------------------------------------------
+
+        /*
+         * Note:
+         * GetValue<T> is preferred for non-string types, ensuring type safety,
+         * while the indexer is suitable for simple string retrieval.
+         * */
+
+        //Get the Configuration Value using Generic GetValue
+        string? MyCustomKeyValueGeneric = builder.Configuration.GetValue<string>("MyCustomKey", "DefaultValue");
+
+        //Get the Configuration Value using Indexer
+        string? MyCustomKeyValueIndexer = builder.Configuration["MyCustomKey"];
+
+        app.MapGet("/", () => $"{MyCustomKeyValueGeneric}");
+
+        //----------------------------------------------------------------------
 
         app.Run();
     }
