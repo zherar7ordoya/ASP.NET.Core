@@ -42,24 +42,16 @@ internal class Program
         //Get the Configuration Value using Indexer
         string? MyCustomKeyValueIndexer = builder.Configuration["MyCustomKey"];
 
-        app.MapGet("/", () => $"{MyCustomKeyValueGeneric}");
+        //app.MapGet("/", () => $"{MyCustomKeyValueGeneric}");
 
         //----------------------------------------------------------------------
 
-        // Configuring First Middleware Component using Use Extension Method
-        //This will also act as a terminal Middleware Component
-        app.Use(async (HttpContext context, RequestDelegate next) =>
-        {
-            await context.Response.WriteAsync("Getting Response from First Middleware");
-            // Not calling 'next' since we want to terminate the pipeline here.
-        });
+        app.MapGet("/", () => $"EnvironmentName: {app.Environment.EnvironmentName} \n" +
+         $"ApplicationName: {app.Environment.ApplicationName} \n" +
+         $"WebRootPath: {app.Environment.WebRootPath} \n" +
+         $"ContentRootPath: {app.Environment.ContentRootPath}");
 
-        //Configuring Second Middleware Component using Run Extension Method
-        app.Run(async (context) =>
-        {
-            await context.Response.WriteAsync("\nGetting Response from Second Middleware");
-        }); ;
-
+        //This will Start the Application
         app.Run();
     }
 }
