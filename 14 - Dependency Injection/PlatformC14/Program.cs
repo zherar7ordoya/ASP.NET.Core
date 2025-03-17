@@ -1,6 +1,11 @@
 using Platform;
 using Platform.Services;
+
+using System.Collections.Generic;
+
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.Intrinsics.X86;
 
 internal class Program
 {
@@ -40,6 +45,20 @@ internal class Program
         app.MapGet("/", () => $"{MyCustomKeyValueGeneric}");
 
         //----------------------------------------------------------------------
+
+        // Configuring First Middleware Component using Use Extension Method
+        //This will also act as a terminal Middleware Component
+        app.Use(async (HttpContext context, RequestDelegate next) =>
+        {
+            await context.Response.WriteAsync("Getting Response from First Middleware");
+            // Not calling 'next' since we want to terminate the pipeline here.
+        });
+
+        //Configuring Second Middleware Component using Run Extension Method
+        app.Run(async (context) =>
+        {
+            await context.Response.WriteAsync("\nGetting Response from Second Middleware");
+        }); ;
 
         app.Run();
     }
